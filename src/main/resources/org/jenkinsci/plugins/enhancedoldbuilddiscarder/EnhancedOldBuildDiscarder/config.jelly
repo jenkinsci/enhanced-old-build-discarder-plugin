@@ -24,7 +24,7 @@ THE SOFTWARE.
 
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
-  <f:entry title="${%Days to keep builds} *************"
+  <f:entry title="${%Days to keep builds}"
     description="${%if not empty, build records are only kept up to this number of days}" field="daysToKeepStr">
     <f:number clazz="positive-number" min="1" step="1" />
   </f:entry>
@@ -33,7 +33,10 @@ THE SOFTWARE.
     <f:number clazz="positive-number" min="1" step="1" />
   </f:entry>
   
-  <f:checkbox title="${%DiscardOnlyOnSuccess}" name="discardOnlyOnSuccess" checked="${instance.discardOnlyOnSuccess}"/>
+  <f:entry title="${%Discard Only On Success}"
+    description="${%discard only when last build status is success}" field="discardOnlyOnSuccess">
+  	<f:checkbox name="discardOnlyOnSuccess" checked="${instance.discardOnlyOnSuccess}"/>
+  </f:entry>
   
   <f:advanced>
     <f:entry title="${%Days to keep artifacts}"
