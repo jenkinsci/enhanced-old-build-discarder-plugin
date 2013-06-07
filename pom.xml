@@ -32,4 +32,22 @@
     -->
     <maven-hpi-plugin.version>1.95</maven-hpi-plugin.version>
   </properties>
+  <developers>
+    <developer>
+      <id>lohandus</id>
+      <name>Lohandus T. Ribeiro</name>
+    </developer>
+    <developer>
+      <id>taksan</id>
+      <name>Gabriel Takeuchi</name>
+    </developer>
+
+  </developers>  
+  <scm>
+    <connection>scm:git:ssh://github.com/jenkinsci/enhanced-old-build-discarder.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/jenkinsci/enhanced-old-build-discarder.git</developerConnection>
+    <url>https://github.com/jenkinsci/enhanced-old-build-discarder</url>
+  </scm>
+  <url>http://wiki.jenkins-ci.org/display/JENKINS/Enhanced+Old+Build+Discarder</url>
+
 </project>
