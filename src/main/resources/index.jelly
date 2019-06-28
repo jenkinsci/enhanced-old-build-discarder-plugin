@@ -1,3 +1,4 @@
+<?jelly escape-by-default='true'?>
 <div>
   This plugin adds an option to prevent discard of builds when the job is unstable.
 </div>
