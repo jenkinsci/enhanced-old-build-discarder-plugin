@@ -177,9 +177,9 @@ class ModifiedLogRotator extends BuildDiscarder {
 			int newCntr = 0;
 			Calendar cal = new GregorianCalendar();
 			cal.add(Calendar.DAY_OF_YEAR,-daysToKeep);
-			List<? extends Run<?,?>> builds = job.getBuilds();
 			Run r = job.getFirstBuild();
 			while (r != null) {
+				List<? extends Run<?,?>> builds = job.getBuilds();
 				if (tooNew(r, cal)) {
 					newCntr++;
 					break;
