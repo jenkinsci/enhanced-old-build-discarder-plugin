@@ -35,11 +35,11 @@ public class EnhancedOldBuildDiscarder extends ModifiedLogRotator {
     		boolean discardOnlyOnSuccess,
 			boolean holdMaxBuilds) {
         this (parse(daysToKeepStr),
-        	   parse(numToKeepStr),
+               parse(numToKeepStr),
                parse(artifactDaysToKeepStr),
                parse(artifactNumToKeepStr),
-				discardOnlyOnSuccess,
-				holdMaxBuilds);
+               discardOnlyOnSuccess,
+               holdMaxBuilds);
     }
 	
 	public EnhancedOldBuildDiscarder(
