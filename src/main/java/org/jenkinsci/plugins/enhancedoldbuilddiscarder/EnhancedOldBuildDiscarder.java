@@ -174,15 +174,17 @@ class ModifiedLogRotator extends BuildDiscarder {
 
 		// Requires both age and build quantity conditions are met prior to discard
 		if(daysToKeep!=-1&&numToKeep!=-1&&holdMaxBuilds) {
+			int newCntr = 0;
 			Calendar cal = new GregorianCalendar();
 			cal.add(Calendar.DAY_OF_YEAR,-daysToKeep);
 			List<? extends Run<?,?>> builds = job.getBuilds();
 			Run r = job.getFirstBuild();
 			while (r != null) {
 				if (tooNew(r, cal)) {
+					newCntr++;
 					break;
 				}
-				if (!shouldKeepRun(r, lsb, lstb)&&(builds.size()>numToKeep)) {
+				if (!shouldKeepRun(r, lsb, lstb)&&((builds.size()-newCntr)>numToKeep)) {
 					r.delete();
 				}
 				r = r.getNextBuild();
