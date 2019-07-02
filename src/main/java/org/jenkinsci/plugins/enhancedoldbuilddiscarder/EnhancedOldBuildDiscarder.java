@@ -77,6 +77,13 @@ public class EnhancedOldBuildDiscarder extends ModifiedLogRotator {
 	public void setDiscardOnlyOnSuccess(boolean discardOnlyOnSuccess) {
 		this.discardOnlyOnSuccess = discardOnlyOnSuccess;
 	}
+
+	@Extension
+	public static final class EnhancedOldBuildDiscarderDescriptor extends BuildDiscarderDescriptor {
+		public String getDisplayName() {
+			return "Enhanced Log Rotator";
+		}
+	}
 }
 
 /**
@@ -131,7 +138,7 @@ class ModifiedLogRotator extends BuildDiscarder {
 
 	/**
 	 * @deprecated since 1.350.
-	 *      Use {@link #AgeAndQuantityDiscarder(int, int, int, int)}
+	 *      Use {@link #ModifiedLogRotator(int, int, int, int)}
 	 */
 	@Deprecated
 	public ModifiedLogRotator(int daysToKeep, int numToKeep) {
@@ -229,6 +236,8 @@ class ModifiedLogRotator extends BuildDiscarder {
 				r = r.getNextBuild();
 			}
 		}
+
+
 	}
 
 	private boolean shouldKeepRun(Run r, Run lsb, Run lstb) {
@@ -308,12 +317,6 @@ class ModifiedLogRotator extends BuildDiscarder {
 		return String.valueOf(i);
 	}
 
-	private static final Logger LOGGER = Logger.getLogger(AgeAndQuantityDiscarder.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(ModifiedLogRotator.class.getName());
 
-	@Extension
-	public static final class EnhancedOldBuildDiscarderDescriptor extends BuildDiscarderDescriptor {
-		public String getDisplayName() {
-			return "Enhanced Log Rotator";
-		}
-	}
 }
