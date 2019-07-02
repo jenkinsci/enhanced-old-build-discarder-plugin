@@ -166,13 +166,13 @@ class ModifiedLogRotator extends BuildDiscarder {
 
 	@SuppressWarnings("rawtypes")
 	public void perform(Job<?,?> job) throws IOException, InterruptedException {
-		LOGGER.log(FINE, "Running the modified log rotation for {0} with numToKeep={1} daysToKeep={2} artifactNumToKeep={3} artifactDaysToKeep={4}", new Object[] {job, numToKeep, daysToKeep, artifactNumToKeep, artifactDaysToKeep});
+		LOGGER.log(FINE, "Running the log rotation for {0} with numToKeep={1} daysToKeep={2} artifactNumToKeep={3} artifactDaysToKeep={4}", new Object[] {job, numToKeep, daysToKeep, artifactNumToKeep, artifactDaysToKeep});
 
 		// always keep the last successful and the last stable builds
 		Run lsb = job.getLastSuccessfulBuild();
 		Run lstb = job.getLastStableBuild();
 
-		// Requires both age and build quantity conditions are met prior to discard
+		// Requires both age and build quantity conditions be met prior to build discard
 		if(daysToKeep!=-1&&numToKeep!=-1&&holdMaxBuilds) {
 			int newCntr = 0;
 			Calendar cal = new GregorianCalendar();
