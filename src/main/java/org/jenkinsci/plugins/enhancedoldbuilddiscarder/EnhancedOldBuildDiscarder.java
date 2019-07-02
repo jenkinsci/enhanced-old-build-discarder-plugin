@@ -24,6 +24,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
 public class EnhancedOldBuildDiscarder extends ModifiedLogRotator {
 	
 	private boolean discardOnlyOnSuccess;
+	private boolean holdMaxBuilds;
 
 	@DataBoundConstructor
     public EnhancedOldBuildDiscarder (
@@ -31,12 +32,13 @@ public class EnhancedOldBuildDiscarder extends ModifiedLogRotator {
     		String numToKeepStr, 
     		String artifactDaysToKeepStr, 
     		String artifactNumToKeepStr,
-    		boolean discardOnlyOnSuccess) {
+    		boolean discardOnlyOnSuccess,
+			boolean holdMaxBuilds) {
         this (parse(daysToKeepStr),
         	   parse(numToKeepStr),
                parse(artifactDaysToKeepStr),
                parse(artifactNumToKeepStr),
-               discardOnlyOnSuccess);
+				(discardOnlyOnSuccess));
     }
 	
 	public EnhancedOldBuildDiscarder(
@@ -44,9 +46,11 @@ public class EnhancedOldBuildDiscarder extends ModifiedLogRotator {
 			int numToKeep, 
 			int artifactDaysToKeep, 
 			int artifactNumToKeep,
-			boolean discardOnlyWhenLastBuildIsSuccess) {
+			boolean discardOnlyWhenLastBuildIsSuccess,
+			boolean discardHoldMaxBuilds) {
 		super(daysToKeep,numToKeep,artifactDaysToKeep,artifactNumToKeep);
 		this.setDiscardOnlyOnSuccess(discardOnlyWhenLastBuildIsSuccess);
+		this.setHoldMaxBuilds(discardHoldMaxBuilds);
 	}
 	
 	@Override
@@ -75,6 +79,10 @@ public class EnhancedOldBuildDiscarder extends ModifiedLogRotator {
 	}
 
 	public void setDiscardOnlyOnSuccess(boolean discardOnlyOnSuccess) {
+		this.discardOnlyOnSuccess = discardOnlyOnSuccess;
+	}
+
+	public void setHoldMaxBuilds(boolean discardOnlyOnSuccess) {
 		this.discardOnlyOnSuccess = discardOnlyOnSuccess;
 	}
 
