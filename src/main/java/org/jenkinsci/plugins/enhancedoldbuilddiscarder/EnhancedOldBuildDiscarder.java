@@ -27,13 +27,13 @@ public class EnhancedOldBuildDiscarder extends ModifiedLogRotator {
 	private boolean holdMaxBuilds;
 
 	@DataBoundConstructor
-    public EnhancedOldBuildDiscarder (
+        public EnhancedOldBuildDiscarder (
     		String daysToKeepStr, 
     		String numToKeepStr, 
     		String artifactDaysToKeepStr, 
     		String artifactNumToKeepStr,
     		boolean discardOnlyOnSuccess,
-			boolean holdMaxBuilds) {
+    		boolean holdMaxBuilds) {
         this (parse(daysToKeepStr),
                parse(numToKeepStr),
                parse(artifactDaysToKeepStr),
