@@ -38,7 +38,8 @@ public class EnhancedOldBuildDiscarder extends ModifiedLogRotator {
         	   parse(numToKeepStr),
                parse(artifactDaysToKeepStr),
                parse(artifactNumToKeepStr),
-				(discardOnlyOnSuccess));
+				discardOnlyOnSuccess,
+				holdMaxBuilds);
     }
 	
 	public EnhancedOldBuildDiscarder(
@@ -82,8 +83,8 @@ public class EnhancedOldBuildDiscarder extends ModifiedLogRotator {
 		this.discardOnlyOnSuccess = discardOnlyOnSuccess;
 	}
 
-	public void setHoldMaxBuilds(boolean discardOnlyOnSuccess) {
-		this.discardOnlyOnSuccess = discardOnlyOnSuccess;
+	public void setHoldMaxBuilds(boolean holdMaxBuilds) {
+		this.holdMaxBuilds = holdMaxBuilds;
 	}
 
 	@Extension
