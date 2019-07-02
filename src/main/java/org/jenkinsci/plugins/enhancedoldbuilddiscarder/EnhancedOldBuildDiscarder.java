@@ -6,7 +6,6 @@ import hudson.Extension;
 import hudson.model.Result;
 import hudson.model.Job;
 import hudson.model.Run;
-import hudson.tasks.LogRotator;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -24,7 +23,6 @@ import org.kohsuke.stapler.DataBoundConstructor;
 public class EnhancedOldBuildDiscarder extends ModifiedLogRotator {
 	
 	private boolean discardOnlyOnSuccess;
-	private boolean holdMaxBuilds;
 
 	@DataBoundConstructor
         public EnhancedOldBuildDiscarder (
@@ -73,10 +71,6 @@ public class EnhancedOldBuildDiscarder extends ModifiedLogRotator {
 			return true;
 		
 		return !lastBuild.getResult().equals(Result.SUCCESS);
-	}
-
-	public boolean isDiscardOnlyOnSuccess() {
-		return discardOnlyOnSuccess;
 	}
 
 	public void setDiscardOnlyOnSuccess(boolean discardOnlyOnSuccess) {
@@ -130,7 +124,7 @@ class ModifiedLogRotator extends BuildDiscarder {
 	 */
 	private final Integer artifactNumToKeep;
 
-	private boolean holdMaxBuilds;
+	public boolean holdMaxBuilds;
 
 	@DataBoundConstructor
 	public ModifiedLogRotator (String daysToKeepStr, String numToKeepStr, String artifactDaysToKeepStr, String artifactNumToKeepStr) {
