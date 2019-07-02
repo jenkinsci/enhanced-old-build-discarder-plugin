@@ -21,7 +21,7 @@ import jenkins.model.BuildDiscarderDescriptor;
 
 import org.kohsuke.stapler.DataBoundConstructor;
 
-public class EnhancedOldBuildDiscarder extends LogRotator {
+public class EnhancedOldBuildDiscarder extends AgeAndQuantityDiscarder {
 	
 	private boolean discardOnlyOnSuccess;
 
@@ -77,13 +77,6 @@ public class EnhancedOldBuildDiscarder extends LogRotator {
 	public void setDiscardOnlyOnSuccess(boolean discardOnlyOnSuccess) {
 		this.discardOnlyOnSuccess = discardOnlyOnSuccess;
 	}
-
-	@Extension
-    public static final class EnhancedOldBuildDiscarderDescriptor extends BuildDiscarderDescriptor {
-        public String getDisplayName() {
-            return "Enhanced Log Rotation";
-        }
-    }
 }
 
 /**
@@ -316,4 +309,11 @@ class AgeAndQuantityDiscarder extends BuildDiscarder {
 	}
 
 	private static final Logger LOGGER = Logger.getLogger(AgeAndQuantityDiscarder.class.getName());
+
+	@Extension
+	public static final class EnhancedOldBuildDiscarderDescriptor extends BuildDiscarderDescriptor {
+		public String getDisplayName() {
+			return "Enhanced Build Discarder";
+		}
+	}
 }
