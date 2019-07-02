@@ -2,5 +2,3 @@ target
 .settings
 .project
 .classpath
-*.xml
-*.iml
