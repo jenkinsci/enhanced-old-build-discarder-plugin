@@ -38,11 +38,6 @@ THE SOFTWARE.
   	<f:checkbox name="discardOnlyOnSuccess" checked="${instance.discardOnlyOnSuccess}"/>
   </f:entry>
 
-  <f:entry title="${%Hold Max Builds}"
-    description="${%Require both quantity and age conditions to be met for build discard}" field="holdMaxBuilds">
-  	<f:checkbox name="holdMaxBuilds" checked="${instance.holdMaxBuilds}"/>
-  </f:entry>
-
   <f:advanced>
     <f:entry title="${%Days to keep artifacts}"
              description="${%if not empty, artifacts from builds older than this number of days will be deleted, but the logs, history, reports, etc for the build will be kept}" field="artifactDaysToKeepStr">
