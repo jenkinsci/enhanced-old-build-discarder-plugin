@@ -130,6 +130,8 @@ class ModifiedLogRotator extends BuildDiscarder {
 	 */
 	private final Integer artifactNumToKeep;
 
+	private boolean holdMaxBuilds;
+
 	@DataBoundConstructor
 	public ModifiedLogRotator (String daysToKeepStr, String numToKeepStr, String artifactDaysToKeepStr, String artifactNumToKeepStr) {
 		this (parse(daysToKeepStr),parse(numToKeepStr),
@@ -171,7 +173,8 @@ class ModifiedLogRotator extends BuildDiscarder {
 		Run lstb = job.getLastStableBuild();
 
 		// Requires both age and build quantity conditions are met prior to discard
-		if(daysToKeep!=-1&&numToKeep!=-1) {
+		if(daysToKeep!=-1&&numToKeep!=-1&&holdMaxBuilds) {
+			List<? extends Run<?,?>> builds = job.getBuilds();
 			Calendar cal = new GregorianCalendar();
 			cal.add(Calendar.DAY_OF_YEAR,-daysToKeep);
 			Run r = job.getFirstBuild();
@@ -180,6 +183,10 @@ class ModifiedLogRotator extends BuildDiscarder {
 					break;
 				}
 				if (!shouldKeepRun(r, lsb, lstb)) {
+					for (Run r : copy(builds.subList(Math.min(builds.size(), numToKeep), builds.size()))) {
+						if (shouldKeepRun(r, lsb, lstb)) {
+							continue;
+						}
 					LOGGER.log(FINE, "{0} is to be removed", r);
 					r.delete();
 				}
