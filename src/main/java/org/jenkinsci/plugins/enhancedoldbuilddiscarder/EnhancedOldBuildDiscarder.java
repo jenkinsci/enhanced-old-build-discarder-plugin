@@ -21,7 +21,7 @@ import jenkins.model.BuildDiscarderDescriptor;
 
 import org.kohsuke.stapler.DataBoundConstructor;
 
-public class EnhancedOldBuildDiscarder extends AgeAndQuantityDiscarder {
+public class EnhancedOldBuildDiscarder extends ModifiedLogRotator {
 	
 	private boolean discardOnlyOnSuccess;
 
@@ -88,7 +88,7 @@ public class EnhancedOldBuildDiscarder extends AgeAndQuantityDiscarder {
  *
  * @author Kohsuke Kawaguchi
  */
-class AgeAndQuantityDiscarder extends BuildDiscarder {
+class ModifiedLogRotator extends BuildDiscarder {
 
 	/**
 	 * If not -1, history is only kept up to this days.
@@ -115,7 +115,7 @@ class AgeAndQuantityDiscarder extends BuildDiscarder {
 	private final Integer artifactNumToKeep;
 
 	@DataBoundConstructor
-	public AgeAndQuantityDiscarder (String daysToKeepStr, String numToKeepStr, String artifactDaysToKeepStr, String artifactNumToKeepStr) {
+	public ModifiedLogRotator (String daysToKeepStr, String numToKeepStr, String artifactDaysToKeepStr, String artifactNumToKeepStr) {
 		this (parse(daysToKeepStr),parse(numToKeepStr),
 				parse(artifactDaysToKeepStr),parse(artifactNumToKeepStr));
 	}
@@ -134,11 +134,11 @@ class AgeAndQuantityDiscarder extends BuildDiscarder {
 	 *      Use {@link #AgeAndQuantityDiscarder(int, int, int, int)}
 	 */
 	@Deprecated
-	public AgeAndQuantityDiscarder(int daysToKeep, int numToKeep) {
+	public ModifiedLogRotator(int daysToKeep, int numToKeep) {
 		this(daysToKeep, numToKeep, -1, -1);
 	}
 
-	public AgeAndQuantityDiscarder(int daysToKeep, int numToKeep, int artifactDaysToKeep, int artifactNumToKeep) {
+	public ModifiedLogRotator(int daysToKeep, int numToKeep, int artifactDaysToKeep, int artifactNumToKeep) {
 		this.daysToKeep = daysToKeep;
 		this.numToKeep = numToKeep;
 		this.artifactDaysToKeep = artifactDaysToKeep;
@@ -313,7 +313,7 @@ class AgeAndQuantityDiscarder extends BuildDiscarder {
 	@Extension
 	public static final class EnhancedOldBuildDiscarderDescriptor extends BuildDiscarderDescriptor {
 		public String getDisplayName() {
-			return "Enhanced Build Discarder";
+			return "Enhanced Log Rotator";
 		}
 	}
 }
