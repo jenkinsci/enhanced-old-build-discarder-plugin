@@ -73,9 +73,8 @@ public class EnhancedOldBuildDiscarderTest extends TestCase {
 		// testing for circumstance where only max build quantity is kept
 		// while remaining build history is cleared since it exceeds max age
 		EnhancedOldBuildDiscarder publisher = getPublisher(new EnhancedOldBuildDiscarder(
-				"10", "", "5", "",
-				false, false, false, false, false,
-				"", "", "", false, true));
+				"10", "5", "", "",
+				false, true);
 
 		publisher.perform((AbstractBuild<?, ?>) buildHMS, launcher, listener);
 
@@ -91,9 +90,8 @@ public class EnhancedOldBuildDiscarderTest extends TestCase {
 		// testing for circumstance where no builds are cleared since logs are beneath max age
 		// despite exceeding max build quantity
 		EnhancedOldBuildDiscarder publisher = getPublisher(new EnhancedOldBuildDiscarder(
-				"100000", "", "5", "",
-				false, false, false, false, false,
-				"", "", "", false, true));
+				"100000", "5", "", "",
+				false, true));
 
 		publisher.perform((AbstractBuild<?, ?>) buildHMS, launcher, listener);
 
@@ -106,9 +104,8 @@ public class EnhancedOldBuildDiscarderTest extends TestCase {
 		// testing for circumstance where max builds is set to 0 and days to keep is not
 		// forcing deletion of all builds exceeding age, with no effect from max build quantity
 		EnhancedOldBuildDiscarder publisher = getPublisher(new EnhancedOldBuildDiscarder(
-				"10", "", "0", "",
-				false, false, false, false, false,
-				"", "", "", false, true));
+				"10", "0", "", "",
+				false, true);
 
 		publisher.perform((AbstractBuild<?, ?>) buildHMS, launcher, listener);
 
