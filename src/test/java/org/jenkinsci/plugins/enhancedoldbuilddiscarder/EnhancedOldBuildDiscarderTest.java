@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
 /**
  * Test for EnhancedOldBuildDiscarder holdMaxBuilds setting
  * author @BenjaminBeggs
- * ported over from Discard Old Builds plugin (authors @tamagawahiroko & @benjaminbeggs)
+ * method ported from Discard Old Builds plugin (authors @tamagawahiroko & @benjaminbeggs)
  */
 
 public class EnhancedOldBuildDiscarderTest extends TestCase {
@@ -57,10 +57,9 @@ public class EnhancedOldBuildDiscarderTest extends TestCase {
 	public void testPerformHoldMaxBuildsFirstCnd() throws Exception {
 		// testing for circumstance where builds to be discarded
 		// are greater in amount than builds present, causing build discard queue to be cleared
-		DiscardBuildPublisher publisher = getPublisher(new DiscardBuildPublisher(
-				"10", "", "20", "",
-				false, false, false, false, false,
-				"", "", "", false, true));
+		EnhancedOldBuildDiscarder publisher = getPublisher(new EnhancedOldBuildDiscarder(
+				"10", "20", "", "",
+				false, true));
 
 		// emulates build data and post-build plugin operation
 		publisher.perform((AbstractBuild<?, ?>) buildHMS, launcher, listener);
@@ -73,7 +72,7 @@ public class EnhancedOldBuildDiscarderTest extends TestCase {
 	public void testPerformHoldMaxBuildsSecondCnd() throws Exception {
 		// testing for circumstance where only max build quantity is kept
 		// while remaining build history is cleared since it exceeds max age
-		DiscardBuildPublisher publisher = getPublisher(new DiscardBuildPublisher(
+		EnhancedOldBuildDiscarder publisher = getPublisher(new EnhancedOldBuildDiscarder(
 				"10", "", "5", "",
 				false, false, false, false, false,
 				"", "", "", false, true));
@@ -91,7 +90,7 @@ public class EnhancedOldBuildDiscarderTest extends TestCase {
 	public void testPerformHoldMaxBuildsThirdCnd() throws Exception {
 		// testing for circumstance where no builds are cleared since logs are beneath max age
 		// despite exceeding max build quantity
-		DiscardBuildPublisher publisher = getPublisher(new DiscardBuildPublisher(
+		EnhancedOldBuildDiscarder publisher = getPublisher(new EnhancedOldBuildDiscarder(
 				"100000", "", "5", "",
 				false, false, false, false, false,
 				"", "", "", false, true));
@@ -106,7 +105,7 @@ public class EnhancedOldBuildDiscarderTest extends TestCase {
 	public void testPerformHoldMaxBuildsFourthCnd() throws Exception {
 		// testing for circumstance where max builds is set to 0 and days to keep is not
 		// forcing deletion of all builds exceeding age, with no effect from max build quantity
-		DiscardBuildPublisher publisher = getPublisher(new DiscardBuildPublisher(
+		EnhancedOldBuildDiscarder publisher = getPublisher(new EnhancedOldBuildDiscarder(
 				"10", "", "0", "",
 				false, false, false, false, false,
 				"", "", "", false, true));
@@ -135,8 +134,8 @@ public class EnhancedOldBuildDiscarderTest extends TestCase {
 		return build;
 	}
 
-	private DiscardBuildPublisher getPublisher(DiscardBuildPublisher publisher) throws Exception {
-		DiscardBuildPublisher spy = spy(publisher);
+	private EnhancedOldBuildDiscarder getPublisher(EnhancedOldBuildDiscarder publisher) throws Exception {
+		EnhancedOldBuildDiscarder spy = spy(publisher);
 
 		when(spy.getCurrentCalendar()).thenAnswer(new Answer() {
 		     public Object answer(InvocationOnMock invocation) {
