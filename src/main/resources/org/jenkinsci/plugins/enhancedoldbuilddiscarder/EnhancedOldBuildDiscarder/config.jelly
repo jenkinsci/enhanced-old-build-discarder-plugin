@@ -34,7 +34,7 @@ THE SOFTWARE.
   </f:entry>
   
   <f:entry title="${%Discard Only On Success}"
-    description="${%Discard only when last build status is success}" field="discardOnlyOnSuccess">
+    description="${%Discard only when build status is successful}" field="discardOnlyOnSuccess">
   	<f:checkbox name="discardOnlyOnSuccess" checked="${instance.discardOnlyOnSuccess}"/>
   </f:entry>
 
