@@ -73,6 +73,46 @@ public class EnhancedOldBuildDiscarder extends ModifiedLogRotator {
 		return !lastBuild.getResult().equals(Result.SUCCESS);
 	}
 
+	public int getDaysToKeep() {
+		return daysToKeep;
+	}
+
+	public int getNumToKeep() {
+		return numToKeep;
+	}
+
+	public int getArtifactDaysToKeep() {
+		return unbox(artifactDaysToKeep);
+	}
+
+	public int getArtifactNumToKeep() {
+		return unbox(artifactNumToKeep);
+	}
+
+	public String getDaysToKeepStr() {
+		return toString(daysToKeep);
+	}
+
+	public String getNumToKeepStr() {
+		return toString(numToKeep);
+	}
+
+	public String getArtifactDaysToKeepStr() {
+		return toString(artifactDaysToKeep);
+	}
+
+	public String getArtifactNumToKeepStr() {
+		return toString(artifactNumToKeep);
+	}
+
+	public boolean isDiscardOnlyOnSuccess() {
+		return discardOnlyOnSuccess;
+	}
+
+	public boolean isHoldMaxBuilds() {
+		return holdMaxBuilds;
+	}
+
 	public void setDiscardOnlyOnSuccess(boolean discardOnlyOnSuccess) {
 		this.discardOnlyOnSuccess = discardOnlyOnSuccess;
 	}
@@ -103,26 +143,26 @@ class ModifiedLogRotator extends BuildDiscarder {
 	/**
 	 * If not -1, history is only kept up to this days.
 	 */
-	private final int daysToKeep;
+	public int daysToKeep;
 
 	/**
 	 * If not -1, only this number of build logs are kept.
 	 */
-	private final int numToKeep;
+	public int numToKeep;
 
 	/**
 	 * If not -1 nor null, artifacts are only kept up to this days.
 	 * Null handling is necessary to remain data compatible with old versions.
 	 * @since 1.350
 	 */
-	private final Integer artifactDaysToKeep;
+	public Integer artifactDaysToKeep;
 
 	/**
 	 * If not -1 nor null, only this number of builds have their artifacts kept.
 	 * Null handling is necessary to remain data compatible with old versions.
 	 * @since 1.350
 	 */
-	private final Integer artifactNumToKeep;
+	public Integer artifactNumToKeep;
 
 	public boolean holdMaxBuilds;
 
@@ -283,43 +323,11 @@ class ModifiedLogRotator extends BuildDiscarder {
 		return Lists.newArrayList(src);
 	}
 
-	public int getDaysToKeep() {
-		return daysToKeep;
-	}
-
-	public int getNumToKeep() {
-		return numToKeep;
-	}
-
-	public int getArtifactDaysToKeep() {
-		return unbox(artifactDaysToKeep);
-	}
-
-	public int getArtifactNumToKeep() {
-		return unbox(artifactNumToKeep);
-	}
-
-	public String getDaysToKeepStr() {
-		return toString(daysToKeep);
-	}
-
-	public String getNumToKeepStr() {
-		return toString(numToKeep);
-	}
-
-	public String getArtifactDaysToKeepStr() {
-		return toString(artifactDaysToKeep);
-	}
-
-	public String getArtifactNumToKeepStr() {
-		return toString(artifactNumToKeep);
-	}
-
-	private int unbox(Integer i) {
+	public int unbox(Integer i) {
 		return i==null ? -1: i;
 	}
 
-	private String toString(Integer i) {
+	public String toString(Integer i) {
 		if (i==null || i==-1)   return "";
 		return String.valueOf(i);
 	}
