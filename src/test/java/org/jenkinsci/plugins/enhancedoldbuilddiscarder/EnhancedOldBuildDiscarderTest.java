@@ -33,7 +33,7 @@ public class EnhancedOldBuildDiscarderTest extends TestCase {
 	private BuildListener listener = mock(BuildListener.class);
 	private FreeStyleBuild buildHMS = mock(FreeStyleBuild.class);
 	private FreeStyleProject jobHMS = mock(FreeStyleProject.class);
-	private List<FreeStyleBuild> buildListHMS = new ArrayList<FreeStyleBuild>(); // buildList used to test specific hold max build feature conditions
+	private Job<?, ?> buildListHMS;// = new ArrayList<FreeStyleBuild>(); // buildList used to test specific hold max build feature conditions
 
 	public void setUp() throws Exception {
 		// instantiates hold max build specific histories
@@ -62,7 +62,7 @@ public class EnhancedOldBuildDiscarderTest extends TestCase {
 				false, true));
 
 		// emulates build data and post-build plugin operation
-		publisher.perform((AbstractBuild<?, ?>) buildHMS, launcher, listener);
+		publisher.perform(buildListHMS);
 
 		for (int i = 0; i < 10; i++) {
 			verify(buildListHMS.get(i), never()).delete();
