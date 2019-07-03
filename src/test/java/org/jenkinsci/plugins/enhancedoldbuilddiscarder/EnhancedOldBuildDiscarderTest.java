@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
 /**
  * Test for EnhancedOldBuildDiscarder holdMaxBuilds setting
  * author @BenjaminBeggs
- * method ported from Discard Old Builds plugin (authors @tamagawahiroko & @benjaminbeggs)
+ * method largely ported from Discard Old Builds plugin (authors @tamagawahiroko & @BenjaminBeggs)
  */
 
 public class EnhancedOldBuildDiscarderTest extends TestCase {
@@ -33,7 +33,7 @@ public class EnhancedOldBuildDiscarderTest extends TestCase {
 	private BuildListener listener = mock(BuildListener.class);
 	private FreeStyleBuild buildHMS = mock(FreeStyleBuild.class);
 	private FreeStyleProject jobHMS = mock(FreeStyleProject.class);
-	private Job<?, ?> buildListHMS;// = new ArrayList<FreeStyleBuild>(); // buildList used to test specific hold max build feature conditions
+	private List<FreeStyleBuild> buildListHMS = new ArrayList<FreeStyleBuild>(); // buildList used to test specific hold max build feature conditions
 
 	public void setUp() throws Exception {
 		// instantiates hold max build specific histories

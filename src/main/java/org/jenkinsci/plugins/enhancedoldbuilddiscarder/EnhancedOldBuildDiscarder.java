@@ -136,7 +136,7 @@ public class EnhancedOldBuildDiscarder extends ModifiedLogRotator {
  *
  * Since 1.350 it has also the option to keep the build, but delete its recorded artifacts.
  *
- * @author Kohsuke Kawaguchi
+ * @author Kohsuke Kawaguchi (modifications by Benjamin Beggs)
  */
 class ModifiedLogRotator extends BuildDiscarder {
 
