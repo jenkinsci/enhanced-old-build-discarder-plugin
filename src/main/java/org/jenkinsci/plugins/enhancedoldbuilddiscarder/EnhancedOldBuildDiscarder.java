@@ -25,7 +25,7 @@ public class EnhancedOldBuildDiscarder extends ModifiedLogRotator {
 	private boolean discardOnlyOnSuccess;
 
 	@DataBoundConstructor
-        public EnhancedOldBuildDiscarder (
+	public EnhancedOldBuildDiscarder (
     		String daysToKeepStr, 
     		String numToKeepStr, 
     		String artifactDaysToKeepStr, 
@@ -40,10 +40,10 @@ public class EnhancedOldBuildDiscarder extends ModifiedLogRotator {
     		holdMaxBuilds);
     }
 	
-	public EnhancedOldBuildDiscarder(
-    		int daysToKeep, 
-    		int numToKeep, 
-    		int artifactDaysToKeep, 
+    public EnhancedOldBuildDiscarder(
+    		int daysToKeep,
+    		int numToKeep,
+    		int artifactDaysToKeep,
     		int artifactNumToKeep,
     		boolean discardOnlyWhenLastBuildIsSuccess,
     		boolean discardHoldMaxBuilds) {
@@ -207,7 +207,7 @@ class ModifiedLogRotator extends BuildDiscarder {
 		Run lstb = job.getLastStableBuild();
 
 		// Requires both age and build quantity conditions be met prior to build discard
-		if(daysToKeep!=-1&&numToKeep!=-1&&holdMaxBuilds) {
+		if((daysToKeep!=-1) && (numToKeep!=-1) && (holdMaxBuilds)) {
 			int newCntr = 0;
 			Calendar cal = new GregorianCalendar();
 			cal.add(Calendar.DAY_OF_YEAR,-daysToKeep);
