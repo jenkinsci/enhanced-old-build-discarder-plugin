@@ -40,7 +40,7 @@ public class EnhancedOldBuildDiscarder extends ModifiedLogRotator {
     		holdMaxBuilds);
     }
 	
-    public EnhancedOldBuildDiscarder(
+    	public EnhancedOldBuildDiscarder(
     		int daysToKeep,
     		int numToKeep,
     		int artifactDaysToKeep,
