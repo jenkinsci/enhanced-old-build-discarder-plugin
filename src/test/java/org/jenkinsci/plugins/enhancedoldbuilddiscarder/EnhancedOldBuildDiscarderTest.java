@@ -23,26 +23,25 @@ import static org.mockito.Mockito.*;
 public class EnhancedOldBuildDiscarderTest extends TestCase {
 
 	public SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-	public FreeStyleBuild buildHMS = mock(FreeStyleBuild.class);
 	public FreeStyleProject jobHMS = mock(FreeStyleProject.class);
-	public List<FreeStyleBuild> buildListHMS = new ArrayList<FreeStyleBuild>(); // buildList used to test feature conditions
+	public List<FreeStyleBuild> buildListHMS = new ArrayList<FreeStyleBuild>();
 
 	public void setUp() throws Exception {
 		// instantiates hold max build relevant histories
-		buildListHMS.add(createBuild(jobHMS, Result.SUCCESS, "20120110", true)); // #10
-		buildListHMS.add(createBuild(jobHMS, Result.SUCCESS, "20120110")); // #10
-		buildListHMS.add(createBuild(jobHMS, Result.SUCCESS, "20120109")); // #9
-		buildListHMS.add(createBuild(jobHMS, Result.SUCCESS, "20120108")); // #8
-		buildListHMS.add(createBuild(jobHMS, Result.SUCCESS, "20120107")); // #7
-		buildListHMS.add(createBuild(jobHMS, Result.SUCCESS, "20120106")); // #6
-		buildListHMS.add(createBuild(jobHMS, Result.SUCCESS, "20120105")); // #5
-		buildListHMS.add(createBuild(jobHMS, Result.SUCCESS, "20120104")); // #4
-		buildListHMS.add(createBuild(jobHMS, Result.SUCCESS, "20120103")); // #3
-		buildListHMS.add(createBuild(jobHMS, Result.SUCCESS, "20120102")); // #2
-		buildListHMS.add(createBuild(jobHMS, Result.SUCCESS, "20120101")); // #1
+		buildListHMS.add(createBuild(jobHMS, Result.SUCCESS, "20120110", true)); // #11
+		buildListHMS.add(createBuild(jobHMS, Result.SUCCESS, "20120110", false)); // #10
+		buildListHMS.add(createBuild(jobHMS, Result.SUCCESS, "20120109", false)); // #9
+		buildListHMS.add(createBuild(jobHMS, Result.SUCCESS, "20120108", false)); // #8
+		buildListHMS.add(createBuild(jobHMS, Result.SUCCESS, "20120107", false)); // #7
+		buildListHMS.add(createBuild(jobHMS, Result.SUCCESS, "20120106", false)); // #6
+		buildListHMS.add(createBuild(jobHMS, Result.SUCCESS, "20120105", false)); // #5
+		buildListHMS.add(createBuild(jobHMS, Result.SUCCESS, "20120104", false)); // #4
+		buildListHMS.add(createBuild(jobHMS, Result.SUCCESS, "20120103", false)); // #3
+		buildListHMS.add(createBuild(jobHMS, Result.SUCCESS, "20120102", false)); // #2
+		buildListHMS.add(createBuild(jobHMS, Result.SUCCESS, "20120101", false)); // #1
 
 		when(jobHMS.getBuilds()).thenReturn(RunList.fromRuns(buildListHMS));
-		when(buildHMS.getParent()).thenReturn(jobHMS);
+
 	}
 
 	public void testPerformHoldMaxBuildsFirstCnd() throws Exception {
@@ -103,10 +102,6 @@ public class EnhancedOldBuildDiscarderTest extends TestCase {
 			verify(buildListHMS.get(i), times(1)).delete();
 		}
 	}
-
-    private FreeStyleBuild createBuild(FreeStyleProject project, Result result, String yyyymmdd) throws Exception {
-        return createBuild(project, result, yyyymmdd, false);
-    }
 
 	private FreeStyleBuild createBuild(FreeStyleProject project, Result result, String yyyymmdd, boolean building) throws Exception {
 		FreeStyleBuild build = spy(new FreeStyleBuild(project));
