@@ -49,7 +49,7 @@ public class EnhancedOldBuildDiscarderTest extends TestCase {
 		// testing for circumstance where builds to be discarded
 		// are greater in amount than builds present, causing build discard queue to be cleared
 		EnhancedOldBuildDiscarder publisher = (new EnhancedOldBuildDiscarder(
-				"1", "20", "", "",
+				"10", "20", "", "",
 				false, true));
 		// emulates build and plugin operation
 		publisher.perform(jobHMS);
