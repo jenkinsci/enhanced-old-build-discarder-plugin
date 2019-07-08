@@ -22,10 +22,10 @@ import static org.mockito.Mockito.*;
 
 public class EnhancedOldBuildDiscarderTest extends TestCase {
 
-	private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-	private FreeStyleBuild buildHMS = mock(FreeStyleBuild.class);
-	private FreeStyleProject jobHMS = mock(FreeStyleProject.class);
-	private List<FreeStyleBuild> buildListHMS = new ArrayList<FreeStyleBuild>(); // buildList used to test feature conditions
+	public SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+	public FreeStyleBuild buildHMS = mock(FreeStyleBuild.class);
+	public FreeStyleProject jobHMS = mock(FreeStyleProject.class);
+	public List<FreeStyleBuild> buildListHMS = new ArrayList<FreeStyleBuild>(); // buildList used to test feature conditions
 
 	public void setUp() throws Exception {
 		// instantiates hold max build relevant histories
@@ -49,15 +49,15 @@ public class EnhancedOldBuildDiscarderTest extends TestCase {
 		// testing for circumstance where builds to be discarded
 		// are greater in amount than builds present, causing build discard queue to be cleared
 		EnhancedOldBuildDiscarder publisher = (new EnhancedOldBuildDiscarder(
-				"", "", "", "",
-				false, false));
+				"1", "20", "", "",
+				false, true));
 		// emulates build and plugin operation
 		publisher.perform(jobHMS);
 		for (int i = 0; i < 10; i++) {
 			verify(buildListHMS.get(i), never()).delete();
 		}
 	}
-/*
+
 	public void testPerformHoldMaxBuildsSecondCnd() throws Exception {
 		// testing for circumstance where only max build quantity is kept
 		// while remaining build history is cleared since it exceeds max age
@@ -74,7 +74,7 @@ public class EnhancedOldBuildDiscarderTest extends TestCase {
 			verify(buildListHMS.get(i), times(1)).delete();
 		}
 	}
-*/
+
 	public void testPerformHoldMaxBuildsThirdCnd() throws Exception {
 		// testing for circumstance where no builds are cleared since logs are beneath max age
 		// despite exceeding max build quantity
@@ -88,12 +88,12 @@ public class EnhancedOldBuildDiscarderTest extends TestCase {
 			verify(buildListHMS.get(i), never()).delete();
 		}
 	}
-/*
+
 	public void testPerformHoldMaxBuildsFourthCnd() throws Exception {
 		// testing for circumstance where max builds is set to 0 and days to keep is not
 		// forcing deletion of all builds exceeding age, with no effect from max build quantity
 		EnhancedOldBuildDiscarder publisher = (new EnhancedOldBuildDiscarder(
-				"10", "0", "", "",
+				"10", "", "", "",
 				false, true));
 
 		publisher.perform(jobHMS);
@@ -102,7 +102,7 @@ public class EnhancedOldBuildDiscarderTest extends TestCase {
 			verify(buildListHMS.get(i), times(1)).delete();
 		}
 	}
-*/
+
     private FreeStyleBuild createBuild(FreeStyleProject project, Result result, String yyyymmdd) throws Exception {
         return createBuild(project, result, yyyymmdd, false);
     }
