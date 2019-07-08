@@ -53,6 +53,7 @@ public class EnhancedOldBuildDiscarderTest extends TestCase {
 				false, true));
 		// emulates build and plugin operation
 		publisher.perform(jobHMS);
+
 		for (int i = 0; i < 10; i++) {
 			verify(buildListHMS.get(i), never()).delete();
 		}
