@@ -31,7 +31,7 @@ public class EnhancedOldBuildDiscarderTest {
 		FreeStyleProject project = mock(FreeStyleProject.class);
 		project = spy(jRule.createFreeStyleProject("test"));
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(sdf.parse("20110101"));
+		cal.setTime(sdf.parse("20120101"));
 
 		FreeStyleBuild build1 = mock(FreeStyleBuild.class);
 		build1 = spy(project.scheduleBuild2(0).get());
@@ -129,10 +129,10 @@ public class EnhancedOldBuildDiscarderTest {
 		FreeStyleProject p = spy(projectInstantiation());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyymmdd");
 		Calendar cal = new GregorianCalendar();
-		cal.setTime(sdf.parse("20120101"));
+		cal.setTime(sdf.parse("30120101"));
 
 		EnhancedOldBuildDiscarder publisher = spy(new EnhancedOldBuildDiscarder(
-				"100000", "5", "", "",
+				"300", "5", "", "",
 				false, true));
 		when(publisher.cal()).thenReturn(cal);
 		publisher.perform(p);
