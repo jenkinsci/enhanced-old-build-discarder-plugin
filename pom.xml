@@ -25,6 +25,22 @@
     </pluginRepository>
   </pluginRepositories>
 
+  <dependencies>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>2.28.2</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://opensource.org/licenses/MIT</url>
+    </license>
+  </licenses>
+
   <properties>
     <jenkins.version>1.642</jenkins.version>
     <java.level>7</java.level>
@@ -39,7 +55,11 @@
       <id>taksan</id>
       <name>Gabriel Takeuchi</name>
     </developer>
-
+    <developer>
+      <id>BenjaminBeggs</id>
+      <name>Benjamin Beggs</name>
+      <email>benjaminbeggspublic@yahoo.com</email>
+    </developer>
   </developers>  
   <scm>
     <connection>scm:git:ssh://github.com/jenkinsci/enhanced-old-build-discarder.git</connection>
