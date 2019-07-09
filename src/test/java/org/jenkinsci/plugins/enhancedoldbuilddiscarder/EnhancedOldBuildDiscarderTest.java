@@ -142,20 +142,20 @@ public class EnhancedOldBuildDiscarderTest {
 
 	@Test
 	public void testPerformHoldMaxBuildsFourthCnd() throws Exception {
-		// testing for circumstance where max builds is undeclared and days to keep is not
-		// forcing deletion of all builds exceeding age, with no effect from max build quantity
+		// testing for circumstance where max builds is undeclared and days to keep is 1
+		// forcing deletion of all builds except the last successful one
 		FreeStyleProject p = spy(projectInstantiation());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyymmdd");
 		Calendar cal = new GregorianCalendar();
 		cal.setTime(sdf.parse("20120101"));
 
 		EnhancedOldBuildDiscarder publisher = spy(new EnhancedOldBuildDiscarder(
-				"10", "", "", "",
+				"1", "", "", "",
 				false, true));
 
 		when(publisher.cal()).thenReturn(cal);
 		publisher.perform(p);
 		List<? extends Run<?,?>> buildListPost = p.getBuilds();
-		assertEquals(0, buildListPost.size());
+		assertEquals(1, buildListPost.size());
 	}
 }
