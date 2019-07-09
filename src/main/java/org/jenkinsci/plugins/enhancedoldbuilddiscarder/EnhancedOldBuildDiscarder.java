@@ -201,16 +201,16 @@ class ModifiedLogRotator extends BuildDiscarder {
 	@SuppressWarnings("rawtypes")
 	public void perform(Job<?,?> job) throws IOException, InterruptedException {
 		LOGGER.log(FINE, "Running the log rotation for {0} with numToKeep={1} daysToKeep={2} artifactNumToKeep={3} artifactDaysToKeep={4}", new Object[] {job, numToKeep, daysToKeep, artifactNumToKeep, artifactDaysToKeep});
-
 		// always keep the last successful and the last stable builds
 		Run lsb = job.getLastSuccessfulBuild();
 		Run lstb = job.getLastStableBuild();
 
 		// Requires both age and build quantity conditions be met prior to build discard
 		if((daysToKeep!=-1) && (numToKeep!=-1) && (holdMaxBuilds)) {
+			//this will be null when not running unit tests
+			if (cal == null)
+				cal = cal();
 			int newCntr = 0;
-			Calendar cal = new GregorianCalendar();
-			cal.add(Calendar.DAY_OF_YEAR,-daysToKeep);
 			Run r = job.getFirstBuild();
 			while (r != null) {
 				List<? extends Run<?,?>> builds = job.getBuilds();
@@ -242,8 +242,9 @@ class ModifiedLogRotator extends BuildDiscarder {
 		}
 
 		else if(daysToKeep!=-1) {
-			Calendar cal = new GregorianCalendar();
-			cal.add(Calendar.DAY_OF_YEAR,-daysToKeep);
+			//this will be null when not running unit tests
+			if (cal == null)
+				cal = cal();
 			Run r = job.getFirstBuild();
 			while (r != null) {
 				if (tooNew(r, cal)) {
@@ -269,11 +270,11 @@ class ModifiedLogRotator extends BuildDiscarder {
 		}
 
 		if(artifactDaysToKeep!=null && artifactDaysToKeep!=-1) {
-			Calendar cal = new GregorianCalendar();
-			cal.add(Calendar.DAY_OF_YEAR,-artifactDaysToKeep);
+			Calendar calArt = new GregorianCalendar();
+			calArt.add(Calendar.DAY_OF_YEAR,-artifactDaysToKeep);
 			Run r = job.getFirstBuild();
 			while (r != null) {
-				if (tooNew(r, cal)) {
+				if (tooNew(r, calArt)) {
 					break;
 				}
 				if (!shouldKeepRun(r, lsb, lstb)) {
@@ -285,6 +286,14 @@ class ModifiedLogRotator extends BuildDiscarder {
 		}
 
 
+	}
+
+	public Calendar cal = cal();
+
+	public Calendar cal() {
+		Calendar cal = new GregorianCalendar();
+		cal.add(Calendar.DAY_OF_YEAR,-daysToKeep);
+		return cal;
 	}
 
 	private boolean shouldKeepRun(Run r, Run lsb, Run lstb) {
