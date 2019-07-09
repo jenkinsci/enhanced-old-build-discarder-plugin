@@ -25,8 +25,7 @@ public class EnhancedOldBuildDiscarderTest {
 	@Rule
 	public JenkinsRule jRule = new JenkinsRule();
 
-	@Test
-	public void holdMaxBuilds() throws Exception {
+	private FreeStyleProject projectInstantiation() throws Exception {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyymmdd");
 		FreeStyleProject project = mock(FreeStyleProject.class);
 		project = spy(jRule.createFreeStyleProject("test"));
@@ -83,13 +82,66 @@ public class EnhancedOldBuildDiscarderTest {
 		when(build10.getTimestamp()).thenReturn(cal);
 		jRule.assertBuildStatus(Result.SUCCESS, build10);
 
+		return project;
+	}
+
+	@Test
+	public void testPerformHoldMaxBuildsFirstCnd() throws Exception {
+		// testing for circumstance where builds to be discarded
 		// are greater in amount than builds present, causing build discard queue to be cleared
+		FreeStyleProject p = projectInstantiation();
+
 		EnhancedOldBuildDiscarder publisher = (new EnhancedOldBuildDiscarder(
-				"1", "", "", "",
+				"", "1", "", "",
 				false, true));
 
-		publisher.perform(project);
-		List<? extends Run<?,?>> buildListPost = project.getBuilds();
+		publisher.perform(p);
+		List<? extends Run<?,?>> buildListPost = p.getBuilds();
+		assertEquals(1, buildListPost.size());
+	}
+
+	@Test
+	public void testPerformHoldMaxBuildsSecondCnd() throws Exception {
+		// testing for circumstance where only max build quantity is kept
+		// while remaining build history is cleared since it exceeds max age
+		FreeStyleProject p = projectInstantiation();
+
+		EnhancedOldBuildDiscarder publisher = (new EnhancedOldBuildDiscarder(
+				"10", "5", "", "",
+				false, true));
+
+		publisher.perform(p);
+		List<? extends Run<?,?>> buildListPost = p.getBuilds();
+		assertEquals(5, buildListPost.size());
+	}
+
+	@Test
+	public void testPerformHoldMaxBuildsThirdCnd() throws Exception {
+		// testing for circumstance where no builds are cleared since logs are beneath max age
+		// despite exceeding max build quantity
+		FreeStyleProject p = projectInstantiation();
+
+		EnhancedOldBuildDiscarder publisher = (new EnhancedOldBuildDiscarder(
+				"100000", "5", "", "",
+				false, true));
+
+		publisher.perform(p);
+		List<? extends Run<?,?>> buildListPost = p.getBuilds();
+		assertEquals(10, buildListPost.size());
+	}
+
+	@Test
+	public void testPerformHoldMaxBuildsFourthCnd() throws Exception {
+		// testing for circumstance where max builds is set to 0 and days to keep is not
+		// forcing deletion of all builds exceeding age, with no effect from max build quantity
+		FreeStyleProject p = projectInstantiation();
+
+		EnhancedOldBuildDiscarder publisher = (new EnhancedOldBuildDiscarder(
+				"10", "", "", "",
+				false, true));
+
+		publisher.perform(p);
+		List<? extends Run<?,?>> buildListPost = p.getBuilds();
 		assertEquals(0, buildListPost.size());
 	}
 }
