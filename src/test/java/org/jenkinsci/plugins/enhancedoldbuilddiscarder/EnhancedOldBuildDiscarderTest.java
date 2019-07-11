@@ -97,9 +97,9 @@ public class EnhancedOldBuildDiscarderTest {
 		// despite exceeding max build quantity, for this reason ageUnitTest() is not stubbed
 		FreeStyleProject p = projectInstantiation();
 
-		EnhancedOldBuildDiscarder publisher = spy(new EnhancedOldBuildDiscarder(
+		EnhancedOldBuildDiscarder publisher = new EnhancedOldBuildDiscarder(
 				"10", "5", "", "",
-				false, true));
+				false, true);
 
 		publisher.perform(p);
 		List<? extends Run<?,?>> buildList = p.getBuilds();
