@@ -309,8 +309,6 @@ class ModifiedLogRotator extends BuildDiscarder {
 	}
 
 	private boolean tooNew(Run r, Calendar cal) {
-		//Clock clockTest = Clock.systemDefaultZone();
-		//Calendar tester = clockTest.;
 		if (!r.getTimestamp().before(cal)) {
 			LOGGER.log(FINER, "{0} is not to be removed or purged of artifacts because it’s still new", r);
 			return true;
