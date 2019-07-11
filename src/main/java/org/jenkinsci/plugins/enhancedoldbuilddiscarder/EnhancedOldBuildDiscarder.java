@@ -21,7 +21,6 @@ import jenkins.model.BuildDiscarderDescriptor;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 public class EnhancedOldBuildDiscarder extends ModifiedLogRotator {
-	
 	private boolean discardOnlyOnSuccess;
 
 	@DataBoundConstructor
@@ -195,7 +194,6 @@ class ModifiedLogRotator extends BuildDiscarder {
 		this.numToKeep = numToKeep;
 		this.artifactDaysToKeep = artifactDaysToKeep;
 		this.artifactNumToKeep = artifactNumToKeep;
-
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -211,6 +209,9 @@ class ModifiedLogRotator extends BuildDiscarder {
 			int newCntr = 0;
 			Calendar cal = new GregorianCalendar();
 			cal.add(Calendar.DAY_OF_YEAR,-daysToKeep);
+			if (ageUnitTest()){ // used to test the age conditions for the hold max builds feature
+				cal.add(Calendar.DAY_OF_YEAR,2*(daysToKeep));
+			}
 			Run r = job.getFirstBuild();
 			while (r != null) {
 				List<? extends Run<?,?>> builds = job.getBuilds();
@@ -308,6 +309,8 @@ class ModifiedLogRotator extends BuildDiscarder {
 	}
 
 	private boolean tooNew(Run r, Calendar cal) {
+		//Clock clockTest = Clock.systemDefaultZone();
+		//Calendar tester = clockTest.;
 		if (!r.getTimestamp().before(cal)) {
 			LOGGER.log(FINER, "{0} is not to be removed or purged of artifacts because it’s still new", r);
 			return true;
@@ -322,6 +325,8 @@ class ModifiedLogRotator extends BuildDiscarder {
 	private <R> Collection<R> copy(Iterable<R> src) {
 		return Lists.newArrayList(src);
 	}
+
+	public boolean ageUnitTest() { return false; }
 
 	public int unbox(Integer i) {
 		return i==null ? -1: i;

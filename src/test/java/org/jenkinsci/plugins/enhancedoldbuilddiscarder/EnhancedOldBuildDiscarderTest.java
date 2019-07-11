@@ -5,9 +5,6 @@ package org.jenkinsci.plugins.enhancedoldbuilddiscarder;
 
 import hudson.model.*;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -27,10 +24,7 @@ public class EnhancedOldBuildDiscarderTest {
 	public JenkinsRule jRule = new JenkinsRule();
 
 	private FreeStyleProject projectInstantiation() throws Exception {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyymmdd");
 		FreeStyleProject project = jRule.createFreeStyleProject("test");
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(sdf.parse("20120101"));
 
 		FreeStyleBuild build1 = project.scheduleBuild2(0).get();
 		jRule.assertBuildStatus(Result.SUCCESS, build1);
@@ -75,6 +69,7 @@ public class EnhancedOldBuildDiscarderTest {
 				"10", "20", "", "",
 				false, true));
 
+		when(publisher.ageUnitTest()).thenReturn(true);
 		publisher.perform(p);
 		List<? extends Run<?,?>> buildList = p.getBuilds();
 		assertEquals(10, buildList.size());
@@ -90,6 +85,7 @@ public class EnhancedOldBuildDiscarderTest {
 				"10", "5", "", "",
 				false, true));
 
+		when(publisher.ageUnitTest()).thenReturn(true);
 		publisher.perform(p);
 		List<? extends Run<?,?>> buildList = p.getBuilds();
 		assertEquals(5, buildList.size());
@@ -98,11 +94,11 @@ public class EnhancedOldBuildDiscarderTest {
 	@Test
 	public void testPerformHoldMaxBuildsThirdCnd() throws Exception {
 		// testing for circumstance where no builds are cleared since logs are beneath max age
-		// despite exceeding max build quantity
-		FreeStyleProject p = (projectInstantiation());
+		// despite exceeding max build quantity, for this reason ageUnitTest() is not stubbed
+		FreeStyleProject p = projectInstantiation();
 
-		EnhancedOldBuildDiscarder publisher = (new EnhancedOldBuildDiscarder(
-				"300", "5", "", "",
+		EnhancedOldBuildDiscarder publisher = spy(new EnhancedOldBuildDiscarder(
+				"10", "5", "", "",
 				false, true));
 
 		publisher.perform(p);
@@ -112,7 +108,7 @@ public class EnhancedOldBuildDiscarderTest {
 
 	@Test
 	public void testPerformHoldMaxBuildsFourthCnd() throws Exception {
-		// testing for circumstance where max builds is undeclared and days to keep is 1
+		// testing for circumstance where max builds is 1 and days to keep is 1
 		// forcing deletion of all builds except the last successful one
 		FreeStyleProject p = projectInstantiation();
 
@@ -120,9 +116,9 @@ public class EnhancedOldBuildDiscarderTest {
 				"1", "1", "", "",
 				false, true));
 
+		when(publisher.ageUnitTest()).thenReturn(true);
 		publisher.perform(p);
 		List<? extends Run<?,?>> buildList = p.getBuilds();
 		assertEquals(1, buildList.size());
 	}
-
 }
