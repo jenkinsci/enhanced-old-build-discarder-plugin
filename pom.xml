@@ -72,11 +72,11 @@
   </distributionManagement>
   
   <scm>
-    <connection>scm:git:ssh://github.com/jenkinsci/enhanced-old-build-discarder.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/jenkinsci/enhanced-old-build-discarder.git</developerConnection>
-    <url>https://github.com/jenkinsci/enhanced-old-build-discarder</url>
+    <connection>scm:git:ssh://github.com/jenkinsci/enhanced-old-build-discarder-plugin.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/jenkinsci/enhanced-old-build-discarder-plugin.git</developerConnection>
+    <url>https://github.com/jenkinsci/enhanced-old-build-discarder-plugin</url>
   </scm>
   
-  <url>http://wiki.jenkins-ci.org/display/JENKINS/Enhanced+Old+Build+Discarder</url>
+  <url>https://wiki.jenkins-ci.org/display/JENKINS/Enhanced+Old+Build+Discarder</url>
 
 </project>
