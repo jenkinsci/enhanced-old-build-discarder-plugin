@@ -1,4 +1,4 @@
-﻿package org.jenkinsci.plugins.enhancedoldbuilddiscarder;
+package org.jenkinsci.plugins.enhancedoldbuilddiscarder;
 
 import com.google.common.collect.Lists;
 
