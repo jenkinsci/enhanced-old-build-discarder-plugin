@@ -1,4 +1,4 @@
-package org.jenkinsci.plugins.enhancedoldbuilddiscarder;
+﻿package org.jenkinsci.plugins.enhancedoldbuilddiscarder;
 
 import com.google.common.collect.Lists;
 
@@ -163,6 +163,7 @@ class ModifiedLogRotator extends BuildDiscarder {
 	 */
 	public Integer artifactNumToKeep;
 
+	// Boolean used to record activation of "require both conditions to be met..." feature on the UI
 	public boolean holdMaxBuilds;
 
 	@DataBoundConstructor
