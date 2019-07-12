@@ -9,7 +9,14 @@
   <artifactId>enhanced-old-build-discarder</artifactId>
   <version>1.1-SNAPSHOT</version>
   <packaging>hpi</packaging>
-
+  <name>Enhanced Old Build Discarder plugin</name>
+  <description>Jenkins plugin that extends the functionality of the internal build discard plugin</description>
+  
+  <properties>
+    <jenkins.version>1.642</jenkins.version>
+    <java.level>7</java.level>
+  </properties>
+  
   <!-- get every artifact through repo.jenkins-ci.org, which proxies all the artifacts that we need -->
   <repositories>
     <repository>
@@ -41,11 +48,6 @@
     </license>
   </licenses>
 
-  <properties>
-    <jenkins.version>1.642</jenkins.version>
-    <java.level>7</java.level>
-  </properties>
-
   <developers>
     <developer>
       <id>lohandus</id>
@@ -60,12 +62,21 @@
       <name>Benjamin Beggs</name>
       <email>benjaminbeggspublic@yahoo.com</email>
     </developer>
-  </developers>  
+  </developers>
+  
+  <distributionManagement>
+    <repository>
+      <id>maven.jenkins-ci.org</id>
+      <url>https://maven.jenkins-ci.org:8081/content/repositories/releases/</url>
+    </repository>
+  </distributionManagement>
+  
   <scm>
     <connection>scm:git:ssh://github.com/jenkinsci/enhanced-old-build-discarder.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/jenkinsci/enhanced-old-build-discarder.git</developerConnection>
     <url>https://github.com/jenkinsci/enhanced-old-build-discarder</url>
   </scm>
+  
   <url>http://wiki.jenkins-ci.org/display/JENKINS/Enhanced+Old+Build+Discarder</url>
 
 </project>
