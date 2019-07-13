@@ -129,4 +129,37 @@ public class EnhancedOldBuildDiscarderTest {
 		List<? extends Run<?,?>> buildList = p.getBuilds();
 		assertEquals(1, buildList.size());
 	}
+
+	@Test
+	public void testPerformHoldMaxBuildsAgeOnly() throws Exception {
+		// testing for circumstance where max builds is 1 and days to keep is null
+		// forcing deletion of all builds except the last successful one
+		FreeStyleProject p = projectInstantiation();
+		Calendar calMock = new GregorianCalendar();
+		calMock.add(Calendar.DAY_OF_YEAR,+1);
+
+		EnhancedOldBuildDiscarder publisher = spy(new EnhancedOldBuildDiscarder(
+				"1", "", "", "",
+				false, true));
+
+		when(publisher.getCalDaysToKeep(1)).thenReturn(calMock);
+		publisher.perform(p);
+		List<? extends Run<?,?>> buildList = p.getBuilds();
+		assertEquals(1, buildList.size());
+	}
+
+	@Test
+	public void testPerformHoldMaxBuildsQuantityOnly() throws Exception {
+		// testing for circumstance where max builds is 1 and days to keep is null
+		// forcing deletion of all builds except one
+		FreeStyleProject p = projectInstantiation();
+
+		EnhancedOldBuildDiscarder publisher = new EnhancedOldBuildDiscarder(
+				"", "1", "", "",
+				false, true);
+
+		publisher.perform(p);
+		List<? extends Run<?,?>> buildList = p.getBuilds();
+		assertEquals(1, buildList.size());
+	}
 }
