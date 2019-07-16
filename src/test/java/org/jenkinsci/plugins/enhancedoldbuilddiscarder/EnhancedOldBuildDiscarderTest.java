@@ -133,7 +133,7 @@ public class EnhancedOldBuildDiscarderTest {
 	@Test
 	public void testPerformHoldMaxBuildsAgeOnly() throws Exception {
 		// testing for circumstance where max builds is 1 and days to keep is null
-		// forcing deletion of all builds except the last successful one
+		// forcing deletion of all builds except the last one
 		FreeStyleProject p = projectInstantiation();
 		Calendar calMock = new GregorianCalendar();
 		calMock.add(Calendar.DAY_OF_YEAR,+1);
@@ -161,5 +161,20 @@ public class EnhancedOldBuildDiscarderTest {
 		publisher.perform(p);
 		List<? extends Run<?,?>> buildList = p.getBuilds();
 		assertEquals(1, buildList.size());
+	}
+
+	@Test
+	public void testPerformHoldMaxBuildsNeitherCnd() throws Exception {
+		// testing for circumstance where all builds are too young and there are
+		// too few builds to clear any
+		FreeStyleProject p = projectInstantiation();
+
+		EnhancedOldBuildDiscarder publisher = new EnhancedOldBuildDiscarder(
+				"10", "10", "", "",
+				false, true);
+
+		publisher.perform(p);
+		List<? extends Run<?,?>> buildList = p.getBuilds();
+		assertEquals(10, buildList.size());
 	}
 }
