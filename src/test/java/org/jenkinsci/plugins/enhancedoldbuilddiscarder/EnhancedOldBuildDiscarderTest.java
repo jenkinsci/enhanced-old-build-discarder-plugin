@@ -168,8 +168,6 @@ public class EnhancedOldBuildDiscarderTest {
 		// testing for circumstance where max builds is 0 and days to keep is 1
 		// causing deletion of no builds since they are all too young
 		FreeStyleProject p = projectInstantiation();
-		Calendar calMock = new GregorianCalendar();
-		calMock.add(Calendar.DAY_OF_YEAR,+1);
 
 		EnhancedOldBuildDiscarder publisher = new EnhancedOldBuildDiscarder(
 				"1", "0", "", "",
