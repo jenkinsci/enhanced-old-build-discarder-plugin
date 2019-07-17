@@ -166,7 +166,7 @@ public class EnhancedOldBuildDiscarderTest {
 	@Test
 	public void testPerformHoldMaxBuildsZeroHoldQuantity() throws Exception {
 		// testing for circumstance where max builds is 0 and days to keep is 1
-		// causing deletion of no builds except since they are all too young
+		// causing deletion of no builds since they are all too young
 		FreeStyleProject p = projectInstantiation();
 		Calendar calMock = new GregorianCalendar();
 		calMock.add(Calendar.DAY_OF_YEAR,+1);
