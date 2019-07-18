@@ -21,7 +21,6 @@ import jenkins.model.BuildDiscarderDescriptor;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 public class EnhancedOldBuildDiscarder extends ModifiedLogRotator {
-	
 	private boolean discardOnlyOnSuccess;
 
 	@DataBoundConstructor
@@ -164,6 +163,7 @@ class ModifiedLogRotator extends BuildDiscarder {
 	 */
 	public Integer artifactNumToKeep;
 
+	// Boolean used to record activation of "require both conditions to be met..." feature on the UI
 	public boolean holdMaxBuilds;
 
 	@DataBoundConstructor
@@ -195,7 +195,6 @@ class ModifiedLogRotator extends BuildDiscarder {
 		this.numToKeep = numToKeep;
 		this.artifactDaysToKeep = artifactDaysToKeep;
 		this.artifactNumToKeep = artifactNumToKeep;
-
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -209,8 +208,7 @@ class ModifiedLogRotator extends BuildDiscarder {
 		// Requires both age and build quantity conditions be met prior to build discard
 		if((daysToKeep!=-1) && (numToKeep!=-1) && (holdMaxBuilds)) {
 			int newCntr = 0;
-			Calendar cal = new GregorianCalendar();
-			cal.add(Calendar.DAY_OF_YEAR,-daysToKeep);
+			Calendar cal = getCalDaysToKeep(daysToKeep);
 			Run r = job.getFirstBuild();
 			while (r != null) {
 				List<? extends Run<?,?>> builds = job.getBuilds();
@@ -242,8 +240,7 @@ class ModifiedLogRotator extends BuildDiscarder {
 		}
 
 		else if(daysToKeep!=-1) {
-			Calendar cal = new GregorianCalendar();
-			cal.add(Calendar.DAY_OF_YEAR,-daysToKeep);
+			Calendar cal = getCalDaysToKeep(daysToKeep);
 			Run r = job.getFirstBuild();
 			while (r != null) {
 				if (tooNew(r, cal)) {
@@ -321,6 +318,12 @@ class ModifiedLogRotator extends BuildDiscarder {
 	 */
 	private <R> Collection<R> copy(Iterable<R> src) {
 		return Lists.newArrayList(src);
+	}
+
+	public Calendar getCalDaysToKeep(int daysToKeep) {
+		Calendar calDays = new GregorianCalendar();
+		calDays.add(Calendar.DAY_OF_YEAR,-daysToKeep);
+		return calDays;
 	}
 
 	public int unbox(Integer i) {
