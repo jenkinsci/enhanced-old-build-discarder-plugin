@@ -13,3 +13,15 @@ properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'EnhancedOldBu
  artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '10', numToKeepStr: '10',
  discardOnlyOnSuccess: false, holdMaxBuilds: true]]]);
  ~~~~
+
+**Version History**
+
+1.4 (2019-08-01)
+- Added feature to enforce both age and quantity conditions be met prior to build discard
+- Updated plugin dependencies
+- Added plugin unit tests
+- Added CI testing
+- Added help documentation
+
+1.0 (2013-06-07)
+Release version
