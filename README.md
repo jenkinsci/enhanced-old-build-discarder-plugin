@@ -24,4 +24,4 @@ properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'EnhancedOldBu
 - Added help documentation
 
 1.0 (2013-06-07)
-Release version
+- Release version
