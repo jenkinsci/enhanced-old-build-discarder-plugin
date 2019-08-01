@@ -7,7 +7,7 @@
   </parent>
 
   <artifactId>enhanced-old-build-discarder</artifactId>
-  <version>1.4</version>
+  <version>1.5-SNAPSHOT</version>
   <packaging>hpi</packaging>
   <name>Enhanced Old Build Discarder plugin</name>
   <description>Jenkins plugin that extends the functionality of the internal build discard plugin</description>
@@ -92,7 +92,7 @@
     <connection>scm:git:ssh://github.com/jenkinsci/enhanced-old-build-discarder-plugin.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/jenkinsci/enhanced-old-build-discarder-plugin.git</developerConnection>
     <url>https://github.com/jenkinsci/enhanced-old-build-discarder-plugin</url>
-    <tag>enhanced-old-build-discarder-1.4</tag>
+    <tag>HEAD</tag>
   </scm>
   
   <url>https://wiki.jenkins-ci.org/display/JENKINS/Enhanced+Old+Build+Discarder</url>
