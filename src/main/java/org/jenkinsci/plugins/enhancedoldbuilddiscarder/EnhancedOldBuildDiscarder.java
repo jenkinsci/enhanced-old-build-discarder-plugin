@@ -19,6 +19,9 @@ import jenkins.model.BuildDiscarder;
 import jenkins.model.BuildDiscarderDescriptor;
 
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.DataBoundSetter;
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
 
 public class EnhancedOldBuildDiscarder extends ModifiedLogRotator {
 	private boolean discardOnlyOnSuccess;
@@ -120,6 +123,9 @@ public class EnhancedOldBuildDiscarder extends ModifiedLogRotator {
 		this.holdMaxBuilds = holdMaxBuilds;
 	}
 
+	public Boolean isKeepLastBuild() {
+		return super.isKeepLastBuild();
+	}
 	@Extension
 	public static final class EnhancedOldBuildDiscarderDescriptor extends BuildDiscarderDescriptor {
 		public String getDisplayName() {
@@ -166,10 +172,23 @@ class ModifiedLogRotator extends BuildDiscarder {
 	// Boolean used to record activation of "require both conditions to be met..." feature on the UI
 	public boolean holdMaxBuilds;
 
+	/**
+	 * Boolean used to always keep the last successful and the last stable build. 
+	 * feature on UI as checkbox. 
+	 */
+	@CheckForNull
+	private Boolean keepLastBuild;
+
 	@DataBoundConstructor
-	public ModifiedLogRotator (String daysToKeepStr, String numToKeepStr, String artifactDaysToKeepStr, String artifactNumToKeepStr) {
-		this (parse(daysToKeepStr),parse(numToKeepStr),
-				parse(artifactDaysToKeepStr),parse(artifactNumToKeepStr));
+	public ModifiedLogRotator (
+		  String daysToKeepStr, 
+		  String numToKeepStr, 
+		  String artifactDaysToKeepStr, 
+		  String artifactNumToKeepStr) {
+		  this (parse(daysToKeepStr),
+		  parse(numToKeepStr),
+		  parse(artifactDaysToKeepStr),
+		  parse(artifactNumToKeepStr));
 	}
 
 	public static int parse(String p) {
@@ -179,6 +198,16 @@ class ModifiedLogRotator extends BuildDiscarder {
 		} catch (NumberFormatException e) {
 			return -1;
 		}
+	}
+
+	@Nonnull
+	public Boolean isKeepLastBuild() {
+        return (keepLastBuild == null) ? true : false;
+    }
+
+    @DataBoundSetter 
+	public void setKeepLastBuild(@Nonnull Boolean keepLastBuild) {
+        this.keepLastBuild = keepLastBuild ? null : false;
 	}
 
 	/**
@@ -289,11 +318,11 @@ class ModifiedLogRotator extends BuildDiscarder {
 			LOGGER.log(FINER, "{0} is not to be removed or purged of artifacts because it’s marked as a keeper", r);
 			return true;
 		}
-		if (r == lsb) {
+		if (r == lsb && isKeepLastBuild()) {
 			LOGGER.log(FINER, "{0} is not to be removed or purged of artifacts because it’s the last successful build", r);
 			return true;
 		}
-		if (r == lstb) {
+		if (r == lstb && isKeepLastBuild()) {
 			LOGGER.log(FINER, "{0} is not to be removed or purged of artifacts because it’s the last stable build", r);
 			return true;
 		}
