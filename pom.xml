@@ -3,18 +3,18 @@
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>1.642</version><!-- which version of Jenkins is this plugin built against? -->
+    <version>4.67</version><!-- which version of Jenkins is this plugin built against? -->
   </parent>
 
   <artifactId>enhanced-old-build-discarder</artifactId>
   <version>1.5-SNAPSHOT</version>
   <packaging>hpi</packaging>
   <name>Enhanced Old Build Discarder plugin</name>
-  <description>Jenkins plugin that extends the functionality of the internal build discard plugin</description>
-  
+
   <properties>
-    <jenkins.version>1.642</jenkins.version>
-    <java.level>7</java.level>
+    <jenkins.version>2.401.1</jenkins.version>
+    <!-- TODO fix violations -->
+    <spotbugs.threshold>High</spotbugs.threshold>
   </properties>
   
   <!-- get every artifact through repo.jenkins-ci.org, which proxies all the artifacts that we need -->
@@ -36,27 +36,10 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
-      <version>2.28.2</version>
+      <version>5.4.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <version>2.5.1</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.apache.maven.shared</groupId>
-            <artifactId>maven-invoker</artifactId>
-            <version>2.2</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-    </plugins>
-  </build>
 
   <licenses>
     <license>
