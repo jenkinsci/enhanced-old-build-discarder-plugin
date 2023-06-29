@@ -43,6 +43,11 @@ THE SOFTWARE.
   	<f:checkbox name="holdMaxBuilds" checked="${instance.holdMaxBuilds}"/>
   </f:entry>
 
+  <f:entry title="${%Keep last build}"
+    description="${%Always keep the last successful and the last stable build}" field="keepLastBuild">
+  	<f:checkbox name="keepLastBuild" checked="${instance.isKeepLastBuild()}" default="true" />
+  </f:entry>
+
   <f:advanced>
     <f:entry title="${%Days to keep artifacts}"
              description="${%if not empty, artifacts from builds older than this number of days will be deleted, but the logs, history, reports, etc for the build will be kept}" field="artifactDaysToKeepStr">

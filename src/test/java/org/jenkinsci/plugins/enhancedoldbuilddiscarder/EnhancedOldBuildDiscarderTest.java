@@ -208,4 +208,70 @@ public class EnhancedOldBuildDiscarderTest {
 		List<? extends Run<?,?>> buildList = p.getBuilds();
 		assertEquals(10, buildList.size());
 	}
+
+	@Test
+	public void testkeepLastBuildDeletesBuild() throws Exception {
+		// testing for circumistances where: 
+		//    a) "daysToKeep" is set on one day and
+		//    b) last successful build is older than one day 
+		//    C) "keepLastBuild" is false
+		//  expected result:No build remains
+		FreeStyleProject p = projectInstantiation();
+		Calendar calMock = new GregorianCalendar();
+		calMock.add(Calendar.DAY_OF_YEAR,+1);
+
+		EnhancedOldBuildDiscarder publisher = spy(new EnhancedOldBuildDiscarder(
+				"1", "", "", "",
+				false, true));
+		publisher.setKeepLastBuild(false);
+
+		when(publisher.getCalDaysToKeep(1)).thenReturn(calMock);
+		publisher.perform(p);
+		List<? extends Run<?,?>> buildList = p.getBuilds();
+		assertEquals(0, buildList.size());
+	}
+
+	@Test
+	public void testkeepLastBuildNotDeletesBuild() throws Exception {
+		// testing for cisrcumistances where:
+		//    a) "daysToKeep" is set on two day and
+		//    b) last successful build is not older than two days
+		//    C) "keepLastBuild" is false
+		//  expected result: build remains
+		FreeStyleProject p = projectInstantiation();
+
+		EnhancedOldBuildDiscarder publisher = new EnhancedOldBuildDiscarder(
+				"0", "1", "", "",
+				false, true);
+		publisher.setKeepLastBuild(false);
+
+		publisher.perform(p);
+		List<? extends Run<?,?>> buildList = p.getBuilds();
+		assertEquals(1, buildList.size());
+	}
+
+	@Test
+	public void testkeepLastBuildKeepsForever() throws Exception {
+		// testing for cisrcumistances where:
+		//    a) "daysToKeep" is set on one day and
+		//    b) the build is marked as "keep forever"
+		//    c) last successful build is older than one day 
+		//    d) "keepLastBuild" is false
+		//  expected result: build remains
+		FreeStyleProject p = projectInstantiation();
+		p.getLastBuild().keepLog();
+		p.getLastBuild().getPreviousBuild().keepLog();
+		Calendar calMock = new GregorianCalendar();
+		calMock.add(Calendar.DAY_OF_YEAR,+1);
+
+		EnhancedOldBuildDiscarder publisher = spy(new EnhancedOldBuildDiscarder(
+				"1", "", "", "",
+				false, true));
+		publisher.setKeepLastBuild(false);
+
+		when(publisher.getCalDaysToKeep(1)).thenReturn(calMock);
+		publisher.perform(p);
+		List<? extends Run<?,?>> buildList = p.getBuilds();
+		assertEquals(2, buildList.size());
+	}
 }
